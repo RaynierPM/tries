@@ -2,11 +2,12 @@ import { useRef, useState } from 'react'
 import './App.css'
 import { Tries } from './core'
 import { useDebounceCallback } from './hooks/useDebounce'
+import { TrieViz } from './TrieViz'
 
 function App() {
   const trie = useRef<Tries>(new Tries())
   const [value, setValue] = useState<string>("")
-  const [graph, setGraph] = useState<string>("")
+  const [trieVersion, setTrieVersion] = useState<number>(0)
   const [autocompleted, setAutocompleted] = useState<string[]>([])
   const [alreadyAdded, setAlreadyAdded] = useState<boolean>(false)
   const [loadedWords, setLoadedWords] = useState<number>(0)
@@ -14,7 +15,7 @@ function App() {
 
   function addWord(word: string) {
     trie.current.insert(word.toLowerCase())
-    setGraph(JSON.stringify(trie.current.root, null, 2))
+    setTrieVersion(v => v + 1)
   }
 
   function autocomplete(word: string) {
@@ -45,6 +46,7 @@ function App() {
             }
           }
           setLoadedWords(addedWords)
+          setTrieVersion(v => v + 1)
           console.log(`Total words added: ${addedWords}`)
         } catch {
           console.log("[Error] Error parsing to json")
@@ -144,17 +146,7 @@ function App() {
           )}
         </div>
 
-        {graph && (
-          <div className="graph-section">
-            <div className="graph-header">
-              <span className="graph-title">TREE STRUCTURE</span>
-              <div className="graph-dots">
-                <span /><span /><span />
-              </div>
-            </div>
-            <pre className="graph-output">{graph}</pre>
-          </div>
-        )}
+        {trieVersion > 0 && <TrieViz root={trie.current.root} />}
       </main>
     </div>
   )
