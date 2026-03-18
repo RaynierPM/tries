@@ -26,7 +26,6 @@ function App() {
   function isAdded(word: string) {
     const isAdded = trie.current.search(word)
     setAlreadyAdded(isAdded)
-    console.log({isAdded})
   }
 
   function handleLoadDictionary(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,7 +48,6 @@ function App() {
           }
           setLoadedWords(addedWords)
           setTrieVersion(v => v + 1)
-          console.log(`Total words added: ${addedWords}`)
         } catch {
           console.log("[Error] Error parsing to json")
         }

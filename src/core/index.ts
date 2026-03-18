@@ -51,7 +51,6 @@ export class Tries {
         const default_words_max = this.max_autocomplete_words
         const results: string[] = []
         const node = this.getNode(word)
-        console.log({node})
         if (node) {
             this.max_autocomplete_words = words
             this.dfs(node, word, results)
