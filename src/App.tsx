@@ -27,21 +27,25 @@ function App() {
   function handleLoadDictionary(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
-      if (!file.type.startsWith("text/")) return
+      console.log({file})
+      if (file.type !== "application/json") return
       const reader = new FileReader()
       reader.onload = (e) => {
         const text = e.target?.result as string
         try {
           const json = JSON.parse(text)
+          let addedWords = 0
           if (Array.isArray(json)) {
             for (const word of json) {
               if (typeof word === "string") {
-                trie.current.insert(word)
+                trie.current.insert(word);
+                addedWords++;
               }
             }
           }
+          console.log(`Total words added: ${addedWords}`)
         }catch {
-          
+          console.log("[Error] Error parsing to json")
         }
       }
       reader.readAsText(file)
