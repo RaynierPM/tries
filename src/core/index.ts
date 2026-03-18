@@ -13,12 +13,13 @@ export class Tries {
     }
 
     search(word: string): boolean {
-        const node = this.root
+        let node = this.root
         for (const letter of word) {
             const current = node.children[letter]
             if (!current) {
                 return false
             }
+            node = current
         }
         return node.isEnd
     }

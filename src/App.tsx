@@ -24,7 +24,9 @@ function App() {
   }
 
   function isAdded(word: string) {
-    setAlreadyAdded(trie.current.search(word))
+    const isAdded = trie.current.search(word)
+    setAlreadyAdded(isAdded)
+    console.log({isAdded})
   }
 
   function handleLoadDictionary(e: React.ChangeEvent<HTMLInputElement>) {
